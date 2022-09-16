@@ -23,7 +23,7 @@ public class BattleTest {
 
     @Test
     @DisplayName("2. Fight")
-    void Fight_True_FirstWarriorKnightWins() {
+    void Fight_True_FirstWarriorAsKnightWins() {
 
         var war1 = new Knight();
         var war2 = new Warrior();
@@ -84,6 +84,20 @@ public class BattleTest {
         final boolean res = Battle.fight(war2, war3);
 
         assertFalse(res);
+    }
+
+    @Test
+    @DisplayName("1. Is alive")
+    void isAlive_True_WarriorIsAlive(){
+        var war1 = new Warrior();
+        assertTrue(war1.isAlive());
+    }
+
+    @Test
+    @DisplayName("2. Is alive")
+    void isAlive_True_KnightIsAlive(){
+        var war1 = new Knight();
+        assertTrue(war1.isAlive());
     }
 
 }

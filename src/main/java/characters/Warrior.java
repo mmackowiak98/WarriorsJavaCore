@@ -1,7 +1,5 @@
 package characters;
 
-import java.util.Objects;
-
 /**
  * Maciej Maćkowiak 14.09.2022
  * Class responsible for implementing object Warrior
@@ -31,7 +29,6 @@ public class Warrior {
 
     /**
      * Method to check if object health is >0
-     *
      * @return true or false, depends on if object field health is >0 or <0
      */
     public boolean isAlive() {
