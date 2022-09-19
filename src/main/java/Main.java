@@ -1,13 +1,25 @@
+import characters.*;
 import game.Battle;
-import characters.Knight;
-import characters.Warrior;
 
 public class Main {
 
     public static void main(String[] args) {
-        Warrior war1 = new Warrior();
-        Warrior knh1 = new Knight();
-        Battle.fight(war1, knh1);
+
+        Army army1 = new Army();
+        Army army2 = new Army();
+
+
+        army1.addUnits(Warrior::new, 20);
+        army1.addUnits(Knight::new,10);
+
+        army2.addUnits(Warrior::new, 21);
+        army2.addUnits(Knight::new,3);
+
+        Warrior defender = new Defender();
+        Warrior vampire = new Vampire();
+
+
+        Battle.fight(defender,vampire);
 
 
     }
