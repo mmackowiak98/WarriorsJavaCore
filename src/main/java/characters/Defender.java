@@ -1,33 +1,41 @@
 package characters;
 
 
+import game.damage.types.IDamage;
+import game.damage.types.SimpleDamage;
+
 /**
  * Maciej Maćkowiak 19.09.2022
- * <p>
+ *
  * Class responsible for implementing object Defender
  */
 public class Defender extends Warrior {
 
-    private final int defense;
+    private static final int DEFENSE = 2;
 
     public Defender() {
         super(60, 3);
-        this.defense = 2;
+    }
+
+    protected int getDefense(){
+        return DEFENSE;
     }
 
     /**
+     * Overridden method from superclass
+     * implemented in a way to work properly for Defender
      *
-     * @param attack amount of health to take away
-     * @return
+     * @param damage amount of health to take away
+     * @return actual damage that opponent received
      */
     @Override
-    int receiveDamage(int attack) {
-        int finalDamage = attack - defense;
+    int receiveDamage(IDamage damage) {
+        int finalDamage = damage.getValue() - getDefense();
 
-        if (attack < defense) {
-            super.receiveDamage(0);
+        if (damage.getValue() < getDefense()) {
+            super.receiveDamage(new SimpleDamage(0,this));
         } else {
-            super.receiveDamage(finalDamage);
+            super.receiveDamage(new SimpleDamage(finalDamage,this));
         }
         return finalDamage;
     }

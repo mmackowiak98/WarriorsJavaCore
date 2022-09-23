@@ -1,14 +1,19 @@
 package characters;
 
+import game.damage.types.IDamage;
+import game.damage.types.SimpleDamage;
+
 /**
  * Maciej Maćkowiak 14.09.2022
  * Class responsible for implementing object Warrior
  */
-public class Warrior implements Cloneable {
+
+
+public class Warrior{
 
     private int health;
     private int attack;
-
+    private int initialHealth;
 
 
     /**
@@ -17,8 +22,8 @@ public class Warrior implements Cloneable {
      * @param health - health of Warrior
      * @param attack - attack of Warrior
      */
-    public Warrior(int health, int attack) {
-        this.health = health;
+    protected Warrior(int health, int attack) {
+        initialHealth = this.health = health;
         this.attack = attack;
     }
 
@@ -26,7 +31,7 @@ public class Warrior implements Cloneable {
      * Overloaded constructor of Warrior
      */
     public Warrior() {
-        this(50,5);
+        this(50, 5);
     }
 
     /**
@@ -61,7 +66,7 @@ public class Warrior implements Cloneable {
      * @param opponent object who's hitting
      */
     public void hit(Warrior opponent) {
-        opponent.receiveDamage(getAttack());
+        opponent.receiveDamage(new SimpleDamage(getAttack(),this));
 
     }
 
@@ -69,11 +74,13 @@ public class Warrior implements Cloneable {
      * Method implements receiving
      * damage from opponent
      *
-     * @param attack amount of health to take away
+     * @param damage type of damage
+     * @return actual damage received
      */
-    int receiveDamage(int attack) {
-        setHealth(getHealth() - attack);
-        return attack;
+    int receiveDamage(IDamage damage) {
+        setHealth(getHealth() - damage.getValue());
+
+        return damage.getValue();
     }
 
     public int getHealth() {
@@ -86,7 +93,7 @@ public class Warrior implements Cloneable {
 
 
     public void setHealth(int health) {
-        this.health = health;
+        this.health = Math.min(health,initialHealth);
     }
 
 

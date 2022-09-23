@@ -2,6 +2,8 @@ package game;
 
 import characters.Army;
 import characters.Warrior;
+import handlers.WarriorTypeHandler;
+
 
 /**
  * Maciej Maćkowiak 14.09.2022
@@ -51,29 +53,23 @@ public class Battle {
      */
     public static boolean armyFight(Army attackingArmy, Army defendingArmy) {
 
-        while (attackingArmy.isNotEmpty() && defendingArmy.isNotEmpty()) {
+        var attackingWarrior = attackingArmy.firstAlive();
+        var defendingWarrior = defendingArmy.firstAlive();
 
-            final Warrior attackingArmySingleUnit = attackingArmy.getSingleUnit();
-            final Warrior defendingArmySingleUnit = defendingArmy.getSingleUnit();
+        final WarriorTypeHandler warriorTypeHandler = new WarriorTypeHandler(attackingArmy);
+        final WarriorTypeHandler warriorTypeHandler2 = new WarriorTypeHandler(defendingArmy);
+
+//        final boolean attackingLancer = warriorTypeHandler.handle( (Warrior) attackingWarrior);
+//        final boolean defendingLancer = warriorTypeHandler2.handle( (Warrior) defendingWarrior);
 
 
-            final boolean fightResult = Battle.fight(attackingArmySingleUnit, defendingArmySingleUnit);
+        while (attackingWarrior.hasNext() && defendingWarrior.hasNext()) {
 
-            //True - attackingArmy warrior wins, so we're deleting unit from defending army
-            if (fightResult) {
-
-                defendingArmy.removeUnit(defendingArmySingleUnit);
-
-            }
-            //False - attackingArmy warrior lost, so we're deleting unit from it
-            else {
-
-                attackingArmy.removeUnit(attackingArmySingleUnit);
-
-            }
-
+            fight(attackingWarrior.next(), defendingWarrior.next());
         }
-        return attackingArmy.size() > 0;
+        return attackingWarrior.hasNext();
+
+
     }
 
 
