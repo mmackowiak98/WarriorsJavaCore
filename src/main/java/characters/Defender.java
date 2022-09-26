@@ -1,9 +1,6 @@
 package characters;
 
 
-import game.damage.types.IDamage;
-import game.damage.types.SimpleDamage;
-
 /**
  * Maciej Maćkowiak 19.09.2022
  *
@@ -25,18 +22,13 @@ public class Defender extends Warrior {
      * Overridden method from superclass
      * implemented in a way to work properly for Defender
      *
-     * @param damage amount of health to take away
-     * @return actual damage that opponent received
+     * @param damager object who has attack and can do damage
      */
     @Override
-    int receiveDamage(IDamage damage) {
-        int finalDamage = damage.getValue() - getDefense();
+    public void receiveDamage(HasAttack damager) {
+        int finalDamage = Math.max(0, damager.getAttack()-getDefense());
 
-        if (damage.getValue() < getDefense()) {
-            super.receiveDamage(new SimpleDamage(0,this));
-        } else {
-            super.receiveDamage(new SimpleDamage(finalDamage,this));
-        }
-        return finalDamage;
+        super.receiveDamage(() -> finalDamage);
+
     }
 }

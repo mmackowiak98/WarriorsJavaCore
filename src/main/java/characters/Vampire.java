@@ -1,13 +1,11 @@
 package characters;
 
-import game.damage.types.SimpleDamage;
-
 /**
  * Maciej Maćkowiak 19.09.2022
  * <p>
  * Class responsible for implementing object Vampire
  */
-public class Vampire extends Warrior {
+public class Vampire extends Warrior implements IDamageDone {
 
     private static final int VAMPIRISM = 50;
 
@@ -19,13 +17,13 @@ public class Vampire extends Warrior {
      * Overridden method from superclass
      * implemented in a way to work properly for Vampire
      *
-     * @param opponent object who's hitting
+     * @param opponent object who can receive damage
      */
     @Override
-    public void hit(Warrior opponent) {
+    public void hit(CanReceiveDamage opponent) {
 
-            final int damageDealt = opponent.receiveDamage(new SimpleDamage(getAttack(),this));
-            setHealth(getHealth() + damageDealt * VAMPIRISM / 100);
+        int damageDealt = damageDealt(opponent);
+        setHealth(getHealth() + damageDealt*VAMPIRISM/100);
     }
 
 

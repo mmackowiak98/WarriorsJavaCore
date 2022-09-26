@@ -1,9 +1,8 @@
 package game;
 
+
 import characters.Army;
 import characters.Warrior;
-import handlers.WarriorTypeHandler;
-
 
 /**
  * Maciej Maćkowiak 14.09.2022
@@ -25,6 +24,7 @@ public class Battle {
 
         //looping through till one of warrior is dead
         while (warrior1.isAlive() && warrior2.isAlive()) {
+
 
             //First warrior attacks second warrior
             warrior1.hit(warrior2);
@@ -56,18 +56,41 @@ public class Battle {
         var attackingWarrior = attackingArmy.firstAlive();
         var defendingWarrior = defendingArmy.firstAlive();
 
-        final WarriorTypeHandler warriorTypeHandler = new WarriorTypeHandler(attackingArmy);
-        final WarriorTypeHandler warriorTypeHandler2 = new WarriorTypeHandler(defendingArmy);
-
-//        final boolean attackingLancer = warriorTypeHandler.handle( (Warrior) attackingWarrior);
-//        final boolean defendingLancer = warriorTypeHandler2.handle( (Warrior) defendingWarrior);
-
 
         while (attackingWarrior.hasNext() && defendingWarrior.hasNext()) {
 
             fight(attackingWarrior.next(), defendingWarrior.next());
+
         }
         return attackingWarrior.hasNext();
+
+
+    }
+
+    public static boolean straightFight(Army attackingArmy, Army defendingArmy){
+
+        while(true) {
+            var attackingArmyIterator = attackingArmy.iterator();
+            var defendingArmyIterator = defendingArmy.iterator();
+
+            if (!attackingArmyIterator.hasNext()) return false;
+            if (!defendingArmyIterator.hasNext()) return true;
+
+
+
+            while(attackingArmyIterator.hasNext() && defendingArmyIterator.hasNext()){
+                final boolean result = fight(attackingArmyIterator.next(), defendingArmyIterator.next());
+                if(result){
+                    defendingArmy.removeDeadUnits();
+                }else {
+                    attackingArmy.removeDeadUnits();
+                }
+
+            }
+
+
+
+        }
 
 
     }

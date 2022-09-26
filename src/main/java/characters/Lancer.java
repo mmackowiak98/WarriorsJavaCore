@@ -1,16 +1,32 @@
 package characters;
 
-import game.damage.types.PiercingDamage;
 
-public class Lancer extends Warrior{
+public class Lancer extends Warrior implements IDamageDone {
+
 
     public Lancer() {
-        super(50,6);
+        super(50, 6);
     }
 
-    @Override
-    public void hit(Warrior opponent) {
 
-        opponent.receiveDamage(new PiercingDamage(getAttack(),this));
+    @Override
+    public void hit(CanReceiveDamage opponent) {
+
+
+        int finalDamage = damageDealt(opponent);
+
+        if (opponent instanceof ArmyWarrior armyUnit) {
+
+            final Warrior warriorBehind = armyUnit.getWarriorBehind();
+
+            if (warriorBehind != null) {
+
+                int reducedDamage = finalDamage / 2;
+                warriorBehind.receiveDamage(() -> reducedDamage);
+
+            }
+        }
+
+
     }
 }
