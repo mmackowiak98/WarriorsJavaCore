@@ -3,32 +3,32 @@ package characters;
 
 /**
  * Maciej Maćkowiak 19.09.2022
- * <p>
+ *
  * Class responsible for implementing object Defender
  */
 public class Defender extends Warrior {
 
-    private final int defense;
+    private static final int DEFENSE = 2;
 
     public Defender() {
         super(60, 3);
-        this.defense = 2;
+    }
+
+    protected int getDefense(){
+        return DEFENSE;
     }
 
     /**
+     * Overridden method from superclass
+     * implemented in a way to work properly for Defender
      *
-     * @param attack amount of health to take away
-     * @return
+     * @param damager object who has attack and can do damage
      */
     @Override
-    int receiveDamage(int attack) {
-        int finalDamage = attack - defense;
+    public void receiveDamage(HasAttack damager) {
+        int finalDamage = Math.max(0, damager.getAttack()-getDefense());
 
-        if (attack < defense) {
-            super.receiveDamage(0);
-        } else {
-            super.receiveDamage(finalDamage);
-        }
-        return finalDamage;
+        super.receiveDamage(() -> finalDamage);
+
     }
 }

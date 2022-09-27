@@ -1,14 +1,41 @@
 package characters;
 
+
+interface HasHealth {
+    int getHealth();
+
+    void setHealth(int health);
+
+    default boolean isAlive() {
+        return getHealth() > 0;
+    }
+}
+
+
+@FunctionalInterface
+interface HasAttack{
+    int getAttack();
+
+    default void hit(CanReceiveDamage opponent) {
+
+        opponent.receiveDamage(this);
+
+    }
+}
+
+interface CanReceiveDamage extends HasHealth{
+    void receiveDamage(HasAttack damager);
+
+}
+
 /**
  * Maciej Maćkowiak 14.09.2022
  * Class responsible for implementing object Warrior
  */
-public class Warrior implements Cloneable {
-
+public class Warrior implements HasHealth, HasAttack, CanReceiveDamage{
     private int health;
-    private int attack;
-
+    private final int attack;
+    private final int initialHealth;
 
 
     /**
@@ -17,8 +44,8 @@ public class Warrior implements Cloneable {
      * @param health - health of Warrior
      * @param attack - attack of Warrior
      */
-    public Warrior(int health, int attack) {
-        this.health = health;
+    protected Warrior(int health, int attack) {
+        initialHealth = this.health = health;
         this.attack = attack;
     }
 
@@ -26,67 +53,28 @@ public class Warrior implements Cloneable {
      * Overloaded constructor of Warrior
      */
     public Warrior() {
-        this(50,5);
+        this(50, 5);
     }
 
-    /**
-     * Implementing clone method from Cloneable interface
-     * to add units
-     *
-     * @return returns cloned object
-     */
     @Override
-    protected Warrior clone() {
-        try {
-            return (Warrior) super.clone();
-        } catch (CloneNotSupportedException e) {
-            //nothing here
-        }
-        throw new IllegalStateException("Oops!");
-    }
-
-    /**
-     * Method to check if object health is >0
-     *
-     * @return true or false, depends on if object field health is >0 or <0
-     */
-    public boolean isAlive() {
-        return health > 0;
-    }
-
-
-    /**
-     * Method implements hitting opponent
-     *
-     * @param opponent object who's hitting
-     */
-    public void hit(Warrior opponent) {
-        opponent.receiveDamage(getAttack());
+    public void receiveDamage(HasAttack damager) {
+        setHealth(getHealth() - damager.getAttack());
 
     }
 
-    /**
-     * Method implements receiving
-     * damage from opponent
-     *
-     * @param attack amount of health to take away
-     */
-    int receiveDamage(int attack) {
-        setHealth(getHealth() - attack);
-        return attack;
-    }
-
+    @Override
     public int getHealth() {
         return health;
     }
 
+    @Override
     public int getAttack() {
         return attack;
     }
 
-
+    @Override
     public void setHealth(int health) {
-        this.health = health;
+        this.health = Math.min(health, initialHealth);
     }
 
 

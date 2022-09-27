@@ -2,6 +2,7 @@ package game;
 
 import characters.Defender;
 import characters.Knight;
+import characters.Vampire;
 import characters.Warrior;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FightTest {
 
-    private class Rookie extends Warrior {
+    private static final class Rookie extends Warrior {
 
-         Rookie() {
+        Rookie() {
             super(50,1);
         }
     }
@@ -180,6 +181,58 @@ class FightTest {
 
         assertFalse(result);
     }
+    @Test
+    @DisplayName("14. Fight with Vampires")
+    void Fight_True_VampireFightWarriorAndWins(){
+
+        var vam1 = new Vampire();
+        var war1 = new Warrior();
+
+        final boolean result = Battle.fight(vam1,war1);
+
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("15. Fight with Vampires")
+    void Fight_False_VampireFightDefenderAndLose(){
+
+        var vam1 = new Vampire();
+        var def1 = new Defender();
+
+        final boolean result = Battle.fight(vam1,def1);
+
+        assertFalse(result);
+    }
+    @Test
+    @DisplayName("16. Fight with Vampires")
+    void Fight_True_VampireFightKnightAndLose(){
+
+        var vam1 = new Vampire();
+        var kng1 = new Knight();
+
+        final boolean result = Battle.fight(vam1,kng1);
+
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("16. Fight with Vampires")
+    void getHealth_True_HealthStaysOnMaxValue(){
+
+        var vam1 = new Vampire();
+        var rok1 = new Rookie();
+
+        Battle.fight(vam1,rok1);
+
+        assertEquals(40,vam1.getHealth());
+    }
+
+
+
+
+
+
 
 
 

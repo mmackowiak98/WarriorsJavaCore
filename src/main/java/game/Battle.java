@@ -1,5 +1,6 @@
 package game;
 
+
 import characters.Army;
 import characters.Warrior;
 
@@ -23,6 +24,7 @@ public class Battle {
 
         //looping through till one of warrior is dead
         while (warrior1.isAlive() && warrior2.isAlive()) {
+
 
             //First warrior attacks second warrior
             warrior1.hit(warrior2);
@@ -51,29 +53,46 @@ public class Battle {
      */
     public static boolean armyFight(Army attackingArmy, Army defendingArmy) {
 
-        while (attackingArmy.isNotEmpty() && defendingArmy.isNotEmpty()) {
-
-            final Warrior attackingArmySingleUnit = attackingArmy.getSingleUnit();
-            final Warrior defendingArmySingleUnit = defendingArmy.getSingleUnit();
+        var attackingWarrior = attackingArmy.firstAlive();
+        var defendingWarrior = defendingArmy.firstAlive();
 
 
-            final boolean fightResult = Battle.fight(attackingArmySingleUnit, defendingArmySingleUnit);
+        while (attackingWarrior.hasNext() && defendingWarrior.hasNext()) {
 
-            //True - attackingArmy warrior wins, so we're deleting unit from defending army
-            if (fightResult) {
-
-                defendingArmy.removeUnit(defendingArmySingleUnit);
-
-            }
-            //False - attackingArmy warrior lost, so we're deleting unit from it
-            else {
-
-                attackingArmy.removeUnit(attackingArmySingleUnit);
-
-            }
+            fight(attackingWarrior.next(), defendingWarrior.next());
 
         }
-        return attackingArmy.size() > 0;
+        return attackingWarrior.hasNext();
+
+
+    }
+
+    public static boolean straightFight(Army attackingArmy, Army defendingArmy){
+
+        while(true) {
+            var attackingArmyIterator = attackingArmy.iterator();
+            var defendingArmyIterator = defendingArmy.iterator();
+
+            if (!attackingArmyIterator.hasNext()) return false;
+            if (!defendingArmyIterator.hasNext()) return true;
+
+
+
+            while(attackingArmyIterator.hasNext() && defendingArmyIterator.hasNext()){
+                final boolean result = fight(attackingArmyIterator.next(), defendingArmyIterator.next());
+                if(result){
+                    defendingArmy.removeDeadUnits();
+                }else {
+                    attackingArmy.removeDeadUnits();
+                }
+
+            }
+
+
+
+        }
+
+
     }
 
 

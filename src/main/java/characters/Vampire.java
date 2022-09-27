@@ -1,31 +1,30 @@
 package characters;
 
-public class Vampire extends Warrior {
-    private final int vampirism;
+/**
+ * Maciej Maćkowiak 19.09.2022
+ * <p>
+ * Class responsible for implementing object Vampire
+ */
+public class Vampire extends Warrior implements IDamageDone {
+
+    private static final int VAMPIRISM = 50;
 
     public Vampire() {
         super(40, 4);
-        this.vampirism = 50;
     }
 
+    /**
+     * Overridden method from superclass
+     * implemented in a way to work properly for Vampire
+     *
+     * @param opponent object who can receive damage
+     */
     @Override
-    public void hit(Warrior opponent) {
+    public void hit(CanReceiveDamage opponent) {
 
-        if (this.getHealth() < 40) {
-
-            final int damageDealt = opponent.receiveDamage(getAttack());
-            this.setHealth(getHealth() + damageDealt * vampirism / 100);
-
-            if (this.getHealth() > 40) {
-                setHealth(40);
-            }
-        } else {
-            super.hit(opponent);
-        }
-
+        int damageDealt = damageDealt(opponent);
+        setHealth(getHealth() + damageDealt*VAMPIRISM/100);
     }
-
-
 
 
 }
