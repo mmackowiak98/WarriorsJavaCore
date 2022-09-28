@@ -9,10 +9,10 @@ public class Army implements Iterable<Warrior> {
 
 
 
-
-    private class Node extends Warrior implements ArmyWarrior, IHealer {
+    private class Node extends Warrior implements ArmyWarrior, IAbilities {
         Warrior warrior;
         Node next;
+        Iterator<Warrior> iterator = iterator();
 
         public Node(Warrior warrior) {
             this.warrior = warrior;
@@ -24,23 +24,21 @@ public class Army implements Iterable<Warrior> {
 
             return next == head ? null : next.warrior;
         }
+        @Override
+        public boolean hasNext() {
+            while(iterator.hasNext()){
+                return true;
+            }
+            return false;
+        }
 
         @Override
         public Warrior next() {
             if(!hasNext()){
                 throw new NoSuchElementException();
             }
-            return next.warrior;
+            return iterator.next();
         }
-
-        @Override
-        public boolean hasNext() {
-            if(next!=head){
-                return true;
-            }
-            return false;
-        }
-
 
         @Override
         public void hit(CanReceiveDamage opponent) {
@@ -158,8 +156,8 @@ public class Army implements Iterable<Warrior> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            Warrior warrior = cursor.next;
-            return warrior;
+            cursor = cursor.next;
+            return cursor;
         }
 
 

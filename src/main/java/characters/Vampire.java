@@ -24,6 +24,7 @@ public class Vampire extends Warrior implements IDamageDone {
 
         int damageDealt = damageDealt(opponent);
         setHealth(getHealth() + damageDealt*VAMPIRISM/100);
+
     }
 
 

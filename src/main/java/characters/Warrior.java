@@ -1,6 +1,8 @@
 package characters;
 
 
+import characters.weapons.Weapon;
+
 interface HasHealth {
     int getHealth();
 
@@ -26,6 +28,7 @@ interface HasAttack{
 interface CanReceiveDamage extends HasHealth{
     void receiveDamage(HasAttack damager);
 
+
 }
 
 /**
@@ -34,7 +37,8 @@ interface CanReceiveDamage extends HasHealth{
  */
 public class Warrior implements HasHealth, HasAttack, CanReceiveDamage{
     private int health;
-    private final int attack;
+
+    private int attack;
     private final int initialHealth;
 
 
@@ -75,6 +79,20 @@ public class Warrior implements HasHealth, HasAttack, CanReceiveDamage{
     @Override
     public void setHealth(int health) {
         this.health = Math.min(health, initialHealth);
+    }
+
+    protected void forceSetHealth(int health){
+        this.health = health;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public void equipWeapon(Weapon weapon){
+        forceSetHealth(getHealth()+ weapon.getHealth());
+        setAttack(getAttack()+ weapon.getAttack());
+
     }
 
 

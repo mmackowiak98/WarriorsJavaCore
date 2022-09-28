@@ -6,7 +6,7 @@ import characters.Warrior;
 
 /**
  * Maciej Maćkowiak 14.09.2022
- * Class that implements battle between 2 warriors
+ * Class that implements battle between warriors
  */
 public class Battle {
     private Battle() {

@@ -131,6 +131,33 @@ class BattleTest {
         assertFalse(Battle.armyFight(army1, army2));
 
     }
+    @Test
+    @DisplayName("8. Battle")
+    void StraightFight_True_FirstArmyWins() {
+        Army army1 = new Army();
+        Army army2 = new Army();
+
+
+        army1.addUnits(Warrior::new, 5);
+        army2.addUnits(Warrior::new, 4);
+
+        assertTrue(Battle.straightFight(army1, army2));
+
+    }
+
+    @Test
+    @DisplayName("9. Battle")
+    void StraightFight_False_SecondArmyWins() {
+        Army army1 = new Army();
+        Army army2 = new Army();
+
+
+        army1.addUnits(Warrior::new, 5);
+        army2.addUnits(Warrior::new, 6);
+
+        assertFalse(Battle.straightFight(army1, army2));
+
+    }
 
 
 

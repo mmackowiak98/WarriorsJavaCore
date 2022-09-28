@@ -1,6 +1,9 @@
 package characters;
 
 
+import characters.weapons.Shield;
+import characters.weapons.Weapon;
+
 /**
  * Maciej Maćkowiak 19.09.2022
  *
@@ -8,14 +11,18 @@ package characters;
  */
 public class Defender extends Warrior {
 
-    private static final int DEFENSE = 2;
+    private int defense = 2;
 
     public Defender() {
         super(60, 3);
     }
 
     protected int getDefense(){
-        return DEFENSE;
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     /**
@@ -30,5 +37,16 @@ public class Defender extends Warrior {
 
         super.receiveDamage(() -> finalDamage);
 
+    }
+
+    @Override
+    public void equipWeapon(Weapon weapon) {
+        if(weapon instanceof Shield shield){
+            forceSetHealth(getHealth()+shield.getHealth());
+            setAttack(getAttack()+shield.getAttack());
+            setDefense(getDefense()+shield.getDefense());
+        } else {
+            super.equipWeapon(weapon);
+        }
     }
 }
