@@ -2,10 +2,13 @@
 
 import characters.Army;
 import characters.Dragon;
-import characters.Vampire;
 import characters.Warrior;
-import game.Battle;
+import characters.weapons.Weapon;
 
+import java.util.Iterator;
+
+import static characters.weapons.Weapon.*;
+import static characters.weapons.Weapons.newSword;
 
 
 public class Main {
@@ -19,8 +22,15 @@ public class Main {
         army2.addUnits(Warrior::new,3);
 
 
-        Battle.armyFight(army1,army2);
 
+        army2.equipWarriorAtPosition(4,newSword());
+        //just to check if working properly
+        Iterator<Warrior> iterator = army2.iterator();
+        while(iterator.hasNext()){
+            Warrior next = iterator.next();
+            System.out.println(next.getAttack());
+            System.out.println(next.getHealth());
 
+        }
     }
 }

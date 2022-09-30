@@ -1,12 +1,13 @@
 package characters;
 
+import characters.weapons.Weapon;
+
+import javax.swing.plaf.IconUIResource;
 import java.util.*;
 import java.util.function.Supplier;
 
 
-
 public class Army implements Iterable<Warrior> {
-
 
 
     private class Node extends Warrior implements ArmyWarrior, IAbilities {
@@ -20,21 +21,28 @@ public class Army implements Iterable<Warrior> {
         }
 
         @Override
+        public Warrior getWrapped() {
+            return warrior;
+        }
+
+        @Override
         public Warrior getWarriorBehind() {
 
             return next == head ? null : next.warrior;
         }
+
         @Override
         public boolean hasNext() {
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 return true;
             }
+
             return false;
         }
 
         @Override
         public Warrior next() {
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
             return iterator.next();
@@ -56,7 +64,7 @@ public class Army implements Iterable<Warrior> {
                 }
 
             }
-       }
+        }
 
         @Override
         public void receiveDamage(HasAttack damager) {
@@ -144,6 +152,7 @@ public class Army implements Iterable<Warrior> {
     private class SimpleIterator implements Iterator<Warrior> {
 
         Node cursor = head;
+        Node temp = null;
 
 
         @Override
@@ -156,14 +165,20 @@ public class Army implements Iterable<Warrior> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
+            temp = cursor;
             cursor = cursor.next;
-            return cursor;
+            return cursor.warrior;
         }
 
 
         @Override
         public void remove() {
-            cursor.next = cursor.next.next;
+            if (temp == null) {
+                throw new IllegalStateException();
+            }
+            temp.next = cursor.next;
+            cursor = temp;
+            temp = null;
         }
     }
 
@@ -184,17 +199,25 @@ public class Army implements Iterable<Warrior> {
         return this;
     }
 
-    public boolean removeDeadUnits() {
-        while(iterator().hasNext()){
-            if(!iterator().next().isAlive()){
-                iterator().remove();
-                return true;
+    public void removeDeadUnits() {
+        Iterator<Warrior> iterator = iterator();
+        while (iterator.hasNext()) {
+            if (!iterator.next().isAlive()) {
+                iterator.remove();
             }
-
-            }
-        return false;
         }
     }
+
+    public void equipWarriorAtPosition(int position, Weapon weaponType){
+        Iterator<Warrior> iterator = iterator();
+        Warrior next = iterator.next();
+        for (int i = 0; i < position-1; i++) {
+                next = iterator.next();
+            }
+        next.equipWeapon(weaponType);
+
+    }
+}
 
 
 

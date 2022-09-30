@@ -79,14 +79,11 @@ public class Battle {
 
 
             while(attackingArmyIterator.hasNext() && defendingArmyIterator.hasNext()){
-                final boolean result = fight(attackingArmyIterator.next(), defendingArmyIterator.next());
-                if(result){
-                    defendingArmy.removeDeadUnits();
-                }else {
-                    attackingArmy.removeDeadUnits();
-                }
-
+               fight(attackingArmyIterator.next(), defendingArmyIterator.next());
             }
+
+            attackingArmy.removeDeadUnits();
+            defendingArmy.removeDeadUnits();
 
 
 

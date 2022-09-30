@@ -1,6 +1,6 @@
 package characters;
 
-public class Healer extends Warrior{
+public class Healer extends Warrior implements CanProcessCommand {
 
     private static final int HEALING_PWR = 2;
 
@@ -16,5 +16,12 @@ public class Healer extends Warrior{
 
     public void heal(Warrior allyWarrior) {
         allyWarrior.setHealth(allyWarrior.getHealth() + HEALING_PWR);
+    }
+
+    @Override
+    public void processCommand(Command command, Warrior sender) {
+        if(command instanceof HealCommand){
+            heal(sender);
+        }
     }
 }

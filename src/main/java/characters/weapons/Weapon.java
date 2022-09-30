@@ -1,22 +1,17 @@
 package characters.weapons;
 
-public class Weapon {
+import lombok.*;
+
+
+@Builder
+@Getter
+public class Weapon implements Weapons {
     private int attack;
     private int health;
+    private int defense;
+    private int vampirism;
+    private int health_power;
 
-    protected Weapon(int attack, int health) {
-        this.attack = attack;
-        this.health = health;
-    }
 
-    public Weapon() {
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public int getHealth() {
-        return health;
-    }
 }
+

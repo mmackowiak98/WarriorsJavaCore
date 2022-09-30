@@ -1,7 +1,6 @@
 package characters;
 
 
-import characters.weapons.Shield;
 import characters.weapons.Weapon;
 
 /**
@@ -41,12 +40,6 @@ public class Defender extends Warrior {
 
     @Override
     public void equipWeapon(Weapon weapon) {
-        if(weapon instanceof Shield shield){
-            forceSetHealth(getHealth()+shield.getHealth());
-            setAttack(getAttack()+shield.getAttack());
-            setDefense(getDefense()+shield.getDefense());
-        } else {
-            super.equipWeapon(weapon);
-        }
+
     }
 }

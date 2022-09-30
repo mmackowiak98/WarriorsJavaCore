@@ -11,7 +11,7 @@ public class Dragon extends Warrior {
     @Override
     public void hit(CanReceiveDamage opponent) {
         rounds++;
-        if(rounds==2) {
+        if(rounds==3) {
             if (opponent instanceof ArmyWarrior armyUnit) {
                 while (armyUnit.hasNext()) {
                     setOnFire(armyUnit.next());
@@ -20,7 +20,6 @@ public class Dragon extends Warrior {
             rounds=0;
         }
     }
-
     private void setOnFire(CanReceiveDamage opponent) {
         opponent.receiveDamage(() -> FIRE_BREATH_MASS_DAMAGE);
     }

@@ -31,15 +31,23 @@ interface CanReceiveDamage extends HasHealth{
 
 }
 
+interface CanBeWeakened extends HasAttack{
+    void setAttack(int attack);
+    default void setWeakness(){
+
+    }
+
+}
+
 /**
  * Maciej Maćkowiak 14.09.2022
  * Class responsible for implementing object Warrior
  */
-public class Warrior implements HasHealth, HasAttack, CanReceiveDamage{
+public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanBeWeakened{
     private int health;
 
     private int attack;
-    private final int initialHealth;
+    private  int initialHealth;
 
 
     /**
@@ -81,16 +89,15 @@ public class Warrior implements HasHealth, HasAttack, CanReceiveDamage{
         this.health = Math.min(health, initialHealth);
     }
 
-    protected void forceSetHealth(int health){
-        this.health = health;
-    }
 
+    @Override
     public void setAttack(int attack) {
         this.attack = attack;
     }
 
     public void equipWeapon(Weapon weapon){
-        forceSetHealth(getHealth()+ weapon.getHealth());
+        initialHealth = initialHealth + weapon.getHealth();
+        setHealth(initialHealth);
         setAttack(getAttack()+ weapon.getAttack());
 
     }
