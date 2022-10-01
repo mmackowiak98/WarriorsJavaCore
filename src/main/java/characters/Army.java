@@ -21,11 +21,6 @@ public class Army implements Iterable<Warrior> {
         }
 
         @Override
-        public Warrior getWrapped() {
-            return warrior;
-        }
-
-        @Override
         public Warrior getWarriorBehind() {
 
             return next == head ? null : next.warrior;
@@ -214,6 +209,7 @@ public class Army implements Iterable<Warrior> {
         for (int i = 0; i < position-1; i++) {
                 next = iterator.next();
             }
+
         next.equipWeapon(weaponType);
 
     }

@@ -1,5 +1,7 @@
 package characters;
 
+import characters.weapons.Weapon;
+
 /**
  * Maciej Maćkowiak 19.09.2022
  * <p>
@@ -7,10 +9,18 @@ package characters;
  */
 public class Vampire extends Warrior implements IDamageDone {
 
-    private static final int VAMPIRISM = 50;
+    private int vampirism = 50;
 
     public Vampire() {
         super(40, 4);
+    }
+
+    private void setVampirism(int vampirism) {
+        this.vampirism = vampirism;
+    }
+
+    public int getVampirism() {
+        return vampirism;
     }
 
     /**
@@ -23,8 +33,14 @@ public class Vampire extends Warrior implements IDamageDone {
     public void hit(CanReceiveDamage opponent) {
 
         int damageDealt = damageDealt(opponent);
-        setHealth(getHealth() + damageDealt*VAMPIRISM/100);
+        setHealth(getHealth() + damageDealt* vampirism /100);
 
+    }
+
+    @Override
+    public void equipWeapon(Weapon weapon) {
+        super.equipWeapon(weapon);
+        setVampirism(getVampirism()+ weapon.getVampirism());
     }
 
 

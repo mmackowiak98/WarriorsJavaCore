@@ -16,11 +16,11 @@ public class Defender extends Warrior {
         super(60, 3);
     }
 
-    protected int getDefense(){
+    public int getDefense(){
         return defense;
     }
 
-    public void setDefense(int defense) {
+    private void setDefense(int defense) {
         this.defense = defense;
     }
 
@@ -40,6 +40,7 @@ public class Defender extends Warrior {
 
     @Override
     public void equipWeapon(Weapon weapon) {
-
+        super.equipWeapon(weapon);
+        setDefense(getDefense()+ weapon.getDefense());
     }
 }

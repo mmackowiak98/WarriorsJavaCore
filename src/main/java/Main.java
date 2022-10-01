@@ -1,14 +1,10 @@
 
 
-import characters.Army;
-import characters.Dragon;
-import characters.Warrior;
-import characters.weapons.Weapon;
+import characters.*;
+import game.Battle;
 
 import java.util.Iterator;
-
-import static characters.weapons.Weapon.*;
-import static characters.weapons.Weapons.newSword;
+import static characters.weapons.Weapons.*;
 
 
 public class Main {
@@ -20,10 +16,16 @@ public class Main {
 
         army1.addUnits(Dragon::new,1);
         army2.addUnits(Warrior::new,3);
+        Warrior defender = new Defender();
+        Warrior lancer = new Lancer();
+        lancer.equipWeapon(newKatana());
+        defender.equipWeapon(newShield());
+        System.out.println(defender.getHealth());
 
 
 
-        army2.equipWarriorAtPosition(4,newSword());
+        army2.equipWarriorAtPosition(2,newSword());
+        Battle.armyFight(army1,army2);
         //just to check if working properly
         Iterator<Warrior> iterator = army2.iterator();
         while(iterator.hasNext()){
@@ -34,3 +36,6 @@ public class Main {
         }
     }
 }
+
+
+

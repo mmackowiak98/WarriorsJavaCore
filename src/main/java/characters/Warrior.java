@@ -15,7 +15,7 @@ interface HasHealth {
 
 
 @FunctionalInterface
-interface HasAttack{
+interface HasAttack {
     int getAttack();
 
     default void hit(CanReceiveDamage opponent) {
@@ -25,29 +25,24 @@ interface HasAttack{
     }
 }
 
-interface CanReceiveDamage extends HasHealth{
+interface CanReceiveDamage extends HasHealth {
     void receiveDamage(HasAttack damager);
 
 
 }
 
-interface CanBeWeakened extends HasAttack{
-    void setAttack(int attack);
-    default void setWeakness(){
-
-    }
-
+interface CanEquipWeapon {
+    void equipWeapon(Weapon weaponType);
 }
 
 /**
  * Maciej Maćkowiak 14.09.2022
  * Class responsible for implementing object Warrior
  */
-public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanBeWeakened{
+public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanEquipWeapon {
     private int health;
-
     private int attack;
-    private  int initialHealth;
+    private int initialHealth;
 
 
     /**
@@ -71,7 +66,6 @@ public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanBeWea
     @Override
     public void receiveDamage(HasAttack damager) {
         setHealth(getHealth() - damager.getAttack());
-
     }
 
     @Override
@@ -89,16 +83,17 @@ public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanBeWea
         this.health = Math.min(health, initialHealth);
     }
 
-
-    @Override
     public void setAttack(int attack) {
         this.attack = attack;
     }
 
-    public void equipWeapon(Weapon weapon){
+    /* TODO - forceSetHealth to set health properly for all instances */
+
+    @Override
+    public void equipWeapon(Weapon weapon) {
         initialHealth = initialHealth + weapon.getHealth();
         setHealth(initialHealth);
-        setAttack(getAttack()+ weapon.getAttack());
+        setAttack(getAttack() + weapon.getAttack());
 
     }
 

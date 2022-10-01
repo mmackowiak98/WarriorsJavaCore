@@ -12,6 +12,5 @@ public class Weapon implements Weapons {
     private int vampirism;
     private int health_power;
 
-
 }
 
