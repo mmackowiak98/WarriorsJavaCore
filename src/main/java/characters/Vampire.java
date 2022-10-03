@@ -1,5 +1,7 @@
 package characters;
 
+import characters.characteristics.CanReceiveDamage;
+import characters.characteristics.IDamageDone;
 import characters.weapons.Weapon;
 
 /**
@@ -15,13 +17,7 @@ public class Vampire extends Warrior implements IDamageDone {
         super(40, 4);
     }
 
-    private void setVampirism(int vampirism) {
-        this.vampirism = vampirism;
-    }
 
-    public int getVampirism() {
-        return vampirism;
-    }
 
     /**
      * Overridden method from superclass
@@ -31,17 +27,23 @@ public class Vampire extends Warrior implements IDamageDone {
      */
     @Override
     public void hit(CanReceiveDamage opponent) {
-
         int damageDealt = damageDealt(opponent);
-        setHealth(getHealth() + damageDealt* vampirism /100);
+        setHealth(getHealth() + damageDealt * vampirism / 100);
 
     }
 
     @Override
     public void equipWeapon(Weapon weapon) {
         super.equipWeapon(weapon);
-        setVampirism(getVampirism()+ weapon.getVampirism());
+        this.vampirism = vampirism + weapon.getVampirism();
     }
 
+    public int getVampirism() {
+        return vampirism;
+    }
+
+    public void setVampirism(int vampirism){
+        this.vampirism = vampirism;
+    }
 
 }

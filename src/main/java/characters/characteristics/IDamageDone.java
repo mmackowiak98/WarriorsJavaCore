@@ -1,4 +1,4 @@
-package characters;
+package characters.characteristics;
 
 public interface IDamageDone extends HasAttack {
     default int damageDealt(CanReceiveDamage opponent) {

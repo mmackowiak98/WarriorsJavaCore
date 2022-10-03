@@ -1,89 +1,16 @@
 package characters;
 
+import characters.characteristics.CanReceiveDamage;
+import characters.characteristics.HasAttack;
+import characters.characteristics.IAbilities;
 import characters.weapons.Weapon;
 
-import javax.swing.plaf.IconUIResource;
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 
 public class Army implements Iterable<Warrior> {
-
-
-    private class Node extends Warrior implements ArmyWarrior, IAbilities {
-        Warrior warrior;
-        Node next;
-        Iterator<Warrior> iterator = iterator();
-
-        public Node(Warrior warrior) {
-            this.warrior = warrior;
-            this.next = this;
-        }
-
-        @Override
-        public Warrior getWarriorBehind() {
-
-            return next == head ? null : next.warrior;
-        }
-
-        @Override
-        public boolean hasNext() {
-            while (iterator.hasNext()) {
-                return true;
-            }
-
-            return false;
-        }
-
-        @Override
-        public Warrior next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            return iterator.next();
-        }
-
-        @Override
-        public void hit(CanReceiveDamage opponent) {
-            warrior.hit(opponent);
-            next.healUnit(warrior);
-        }
-
-        @Override
-        public void healUnit(Warrior ally) {
-
-            if (warrior instanceof Healer healer) {
-                healer.heal(ally);
-                if (next != head) {
-                    next.healUnit(warrior);
-                }
-
-            }
-        }
-
-        @Override
-        public void receiveDamage(HasAttack damager) {
-            warrior.receiveDamage(damager);
-        }
-
-        @Override
-        public int getHealth() {
-            return warrior.getHealth();
-        }
-
-        @Override
-        public int getAttack() {
-            return warrior.getAttack();
-        }
-
-        @Override
-        public void setHealth(int health) {
-            warrior.setHealth(health);
-        }
-
-
-    }
-
     private final Node head = new Node(null);
     private Node tail = head;
 
@@ -203,14 +130,88 @@ public class Army implements Iterable<Warrior> {
         }
     }
 
-    public void equipWarriorAtPosition(int position, Weapon weaponType){
+    public void equipWarriorAtPosition(int position, Weapon weaponType) {
         Iterator<Warrior> iterator = iterator();
         Warrior next = iterator.next();
-        for (int i = 0; i < position-1; i++) {
-                next = iterator.next();
-            }
+        for (int i = 0; i < position - 1; i++) {
+            next = iterator.next();
+        }
 
         next.equipWeapon(weaponType);
+
+    }
+
+
+    private class Node extends Warrior implements ArmyWarrior, IAbilities {
+        Warrior warrior;
+        Node next;
+        Iterator<Warrior> iterator = iterator();
+
+        public Node(Warrior warrior) {
+            this.warrior = warrior;
+            this.next = this;
+        }
+
+        @Override
+        public Warrior getWarriorBehind() {
+
+            return next == head ? null : next.warrior;
+        }
+
+        @Override
+        public boolean hasNext() {
+            while (iterator.hasNext()) {
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public Warrior next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return iterator.next();
+        }
+
+        @Override
+        public void hit(CanReceiveDamage opponent) {
+            warrior.hit(opponent);
+            next.healUnit(warrior);
+        }
+
+        @Override
+        public void healUnit(Warrior ally) {
+
+            if (warrior instanceof Healer healer) {
+                healer.heal(ally);
+                if (next != head) {
+                    next.healUnit(warrior);
+                }
+
+            }
+        }
+
+        @Override
+        public void receiveDamage(HasAttack damager) {
+            warrior.receiveDamage(damager);
+        }
+
+        @Override
+        public int getHealth() {
+            return warrior.getHealth();
+        }
+
+        @Override
+        public int getAttack() {
+            return warrior.getAttack();
+        }
+
+        @Override
+        public void setHealth(int health) {
+            warrior.setHealth(health);
+        }
 
     }
 }

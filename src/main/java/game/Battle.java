@@ -9,6 +9,8 @@ import characters.Warrior;
  * Class that implements battle between warriors
  */
 public class Battle {
+
+
     private Battle() {
         throw new IllegalStateException("Utility class");
     }

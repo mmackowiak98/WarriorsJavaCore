@@ -14,6 +14,8 @@ public class Main {
         Army army1 = new Army();
         Army army2 = new Army();
 
+
+
         army1.addUnits(Dragon::new,1);
         army2.addUnits(Warrior::new,3);
         Warrior defender = new Defender();

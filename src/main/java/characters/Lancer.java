@@ -1,6 +1,9 @@
 package characters;
 
 
+import characters.characteristics.CanReceiveDamage;
+import characters.characteristics.IDamageDone;
+
 public class Lancer extends Warrior implements IDamageDone {
 
 

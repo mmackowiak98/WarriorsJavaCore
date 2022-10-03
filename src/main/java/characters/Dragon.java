@@ -1,5 +1,7 @@
 package characters;
 
+import characters.characteristics.CanReceiveDamage;
+
 public class Dragon extends Warrior {
     private static final int FIRE_BREATH_MASS_DAMAGE = 10;
     private int rounds = 0;

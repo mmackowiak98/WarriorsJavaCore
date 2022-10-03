@@ -1,44 +1,20 @@
 package characters;
 
 
+import characters.characteristics.CanEquipWeapon;
+import characters.characteristics.CanReceiveDamage;
+import characters.characteristics.HasAttack;
+import characters.characteristics.HasHealth;
 import characters.weapons.Weapon;
+import lombok.Getter;
 
-interface HasHealth {
-    int getHealth();
-
-    void setHealth(int health);
-
-    default boolean isAlive() {
-        return getHealth() > 0;
-    }
-}
-
-
-@FunctionalInterface
-interface HasAttack {
-    int getAttack();
-
-    default void hit(CanReceiveDamage opponent) {
-
-        opponent.receiveDamage(this);
-
-    }
-}
-
-interface CanReceiveDamage extends HasHealth {
-    void receiveDamage(HasAttack damager);
-
-
-}
-
-interface CanEquipWeapon {
-    void equipWeapon(Weapon weaponType);
-}
 
 /**
  * Maciej Maćkowiak 14.09.2022
  * Class responsible for implementing object Warrior
  */
+
+@Getter
 public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanEquipWeapon {
     private int health;
     private int attack;
@@ -69,13 +45,11 @@ public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanEquip
     }
 
     @Override
-    public int getHealth() {
-        return health;
-    }
+    public void equipWeapon(Weapon weapon) {
+        initialHealth = initialHealth + weapon.getHealth();
+        setHealth(initialHealth);
+        setAttack(getAttack() + weapon.getAttack());
 
-    @Override
-    public int getAttack() {
-        return attack;
     }
 
     @Override
@@ -85,16 +59,6 @@ public class Warrior implements HasHealth, HasAttack, CanReceiveDamage, CanEquip
 
     public void setAttack(int attack) {
         this.attack = attack;
-    }
-
-    /* TODO - forceSetHealth to set health properly for all instances */
-
-    @Override
-    public void equipWeapon(Weapon weapon) {
-        initialHealth = initialHealth + weapon.getHealth();
-        setHealth(initialHealth);
-        setAttack(getAttack() + weapon.getAttack());
-
     }
 
 

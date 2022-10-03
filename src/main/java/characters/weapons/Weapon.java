@@ -1,7 +1,8 @@
 package characters.weapons;
 
-import lombok.*;
 
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter

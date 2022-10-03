@@ -1,6 +1,7 @@
 package characters;
 
 
+import characters.characteristics.HasAttack;
 import characters.weapons.Weapon;
 
 /**
